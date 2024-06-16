@@ -1,2 +1,2 @@
-# Lernsituationen für KiDi
+# Lernsituationen für KiDi!
 
