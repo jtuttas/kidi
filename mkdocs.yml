@@ -18,3 +18,8 @@ extra_javascript:
 
 nav:
     - Home: index.md
+    - LS1: LS1.md
+    - LS2: LS2.md
+    - LS3: LS3.md
+    - LS4: LS4.md
+    - LS5: LS5.md
