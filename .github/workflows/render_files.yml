@@ -1,0 +1,99 @@
+name: Render files
+
+on: [push]
+
+jobs:
+      
+  render_umlet:
+    runs-on: ubuntu-latest
+    name: Render umlet files
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: list files
+      run: 'ls -laR'
+    - name: update
+      run: sudo apt-get update
+    - name: Install Umlet
+      run: sudo apt-get install umlet
+    - name: render files
+      run: 'sh ./config/render_umlet.sh'
+    - name: Cache files 
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-files
+      with:
+        path: | 
+          ./docs
+          ./config
+          ./pdfs
+          ./html
+        key: $build-${{ env.cache-name }}-${{ github.event.head_commit.message }}
+
+  converttopdf:
+    name: Build PDF with Pandoc
+    needs: render_umlet
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache files 
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-files
+        with:
+          path: | 
+            ./docs
+            ./config
+            ./pdfs
+            ./html
+          key: $build3-${{ env.cache-name }}-${{ github.event.head_commit.message }}
+          restore-keys: |
+            $build2-${{ env.cache-name }}-${{ github.event.head_commit.message }}
+      - name: list files
+        run: 'ls -laR'
+      - name: create file list
+        id: files_list
+        run: |
+          echo "::set-output name=files::$(printf '"%s" ' docs/*.md)"
+      - name: install pandoc
+        run: sudo apt-get update;sudo apt-get install texlive-latex-base texlive-latex-extra pandoc libjs-mathjax; npm install --global mermaid-filter
+      - name: run pandoc
+        run: cd docs; for i in *.md ; do echo "$i" && pandoc -V geometry:margin=1in -f markdown-implicit_figures --mathjax -F mermaid-filter -s $i -o ../pdfs/$i.pdf || true; pandoc --webtex --self-contained --standalone -F mermaid-filter -s $i -o ../html/$i.html --metadata pagetitle=$i || true; done 
+      - name: list files2
+        run: 'ls -laR'        
+
+  render-mk-docs:
+    name: mkdocs
+    needs: converttopdf 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache files 
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-files
+        with:
+          path: | 
+            ./docs
+            ./config
+            ./pdfs
+            ./html
+          key: $build4-${{ env.cache-name }}-${{ github.event.head_commit.message }}
+          restore-keys: |
+            $build3-${{ env.cache-name }}-${{ github.event.head_commit.message }}
+      - name: list files
+        run: 'ls -laR'
+      - name: Deploy docs
+        uses: jtuttas/mkdocs-deploy-gh-pages@master
+        # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
+        env:
+          CONFIG_FILE: mkdocs.yml 
+      - uses: EndBug/add-and-commit@v7
+        with:
+          # This "special" author name and email will show up as the GH Actions user/bot in the UI
+          author_name: github-actions
+          author_email: 41898282+github-actions[bot]@users.noreply.github.com
+          message: 'Automatically render files'
+          add: "."

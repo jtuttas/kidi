@@ -1,0 +1,13 @@
+{
+	"recommendations": [
+		"atomiks.moonlight",
+		"hediet.vscode-drawio",
+		"PKief.material-icon-theme",
+		"redhat.java",
+		"sandcastle.vscode-open",
+		"vscjava.vscode-java-pack"
+	],
+	"unwantedRecommendations": [
+		
+	]
+}
