@@ -2,7 +2,7 @@
 
 ## Technische Umfeld
 
-![setup](docs/images/setup.png)
+![setup](docs/images/setup2.png)
 
 Lehre Raspberry-PI, der ein WLAN aufspannt in dem sich die Schüler z.B. mit ihrem Smartphone / Tablet anmelden können.
 
