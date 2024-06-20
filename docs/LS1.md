@@ -8,5 +8,3 @@
 
 ## Handlungsergebnis
 
-## Zielformnulierung
-
