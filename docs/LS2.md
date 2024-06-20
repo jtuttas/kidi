@@ -8,4 +8,3 @@
 
 ## Handlungsergebnis
 
-## ttest
