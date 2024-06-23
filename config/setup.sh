@@ -18,6 +18,9 @@ else
   git clone "$REPO_URL" "$TARGET_DIR"
 fi
 
+echo "Kopieren des static content nach nginx home"
+
+sudo cp -r "$TARGET_DIR"/site/* /var/www/html/
 
 # Benutzername und Passwort
 username="schueler1"
