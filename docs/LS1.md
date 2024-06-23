@@ -8,4 +8,3 @@
 
 ## Handlungsergebnis
 
-## Zielformulierung
