@@ -47,9 +47,9 @@ jobs:
             ./config
             ./pdfs
             ./html
-          key: $build3-${{ env.cache-name }}-${{ github.event.head_commit.message }}
+          key: $build2-${{ env.cache-name }}-${{ github.event.head_commit.message }}
           restore-keys: |
-            $build2-${{ env.cache-name }}-${{ github.event.head_commit.message }}
+            $build-${{ env.cache-name }}-${{ github.event.head_commit.message }}
       - name: list files
         run: 'ls -laR'
       - name: create file list
@@ -80,9 +80,9 @@ jobs:
             ./config
             ./pdfs
             ./html
-          key: $build4-${{ env.cache-name }}-${{ github.event.head_commit.message }}
+          key: $build3-${{ env.cache-name }}-${{ github.event.head_commit.message }}
           restore-keys: |
-            $build3-${{ env.cache-name }}-${{ github.event.head_commit.message }}
+            $build2-${{ env.cache-name }}-${{ github.event.head_commit.message }}
       - name: list files
         run: 'ls -laR'
       - name: Deploy docs
