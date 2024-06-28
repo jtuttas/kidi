@@ -28,7 +28,7 @@ jobs:
           ./config
           ./pdfs
           ./html
-        key: $build-${{ env.cache-name }}-${{ github.event.head_commit.message }}
+        key: $build-${{ env.cache-name }}-${{ github.event.head_commit.message }}-${{ github.sha }}
 
   converttopdf:
     name: Build PDF with Pandoc
@@ -47,9 +47,9 @@ jobs:
             ./config
             ./pdfs
             ./html
-          key: $build2-${{ env.cache-name }}-${{ github.event.head_commit.message }}
+          key: $build2-${{ env.cache-name }}-${{ github.event.head_commit.message }}-${{ github.sha }}
           restore-keys: |
-            $build-${{ env.cache-name }}-${{ github.event.head_commit.message }}
+            $build-${{ env.cache-name }}-${{ github.event.head_commit.message }}-${{ github.sha }}
       - name: list files
         run: 'ls -laR'
       - name: create file list
@@ -80,9 +80,9 @@ jobs:
             ./config
             ./pdfs
             ./html
-          key: $build3-${{ env.cache-name }}-${{ github.event.head_commit.message }}
+          key: $build3-${{ env.cache-name }}-${{ github.event.head_commit.message }}-${{ github.sha }}
           restore-keys: |
-            $build2-${{ env.cache-name }}-${{ github.event.head_commit.message }}
+            $build2-${{ env.cache-name }}-${{ github.event.head_commit.message }}-${{ github.sha }}
       - name: list files
         run: 'ls -laR'
       - name: Deploy docs
